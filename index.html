@@ -1,1 +1,129 @@
-inde
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Paddle Grip Pickleball Booking</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    max-width: 700px;
+    margin: auto;
+    padding: 20px;
+    background: #f4f4f4;
+}
+.container{
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+}
+h1{
+    text-align:center;
+    color:#009688;
+}
+input, select{
+    width:100%;
+    padding:10px;
+    margin:8px 0;
+}
+button{
+    width:100%;
+    padding:12px;
+    background:#009688;
+    color:white;
+    border:none;
+    cursor:pointer;
+}
+button:hover{
+    background:#00796b;
+}
+.booking{
+    border:1px solid #ddd;
+    padding:10px;
+    margin-top:10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+<h1>Paddle Grip Court Booking</h1>
+
+<form id="bookingForm">
+<input type="text" id="name" placeholder="Player Name" required>
+
+<input type="tel" id="phone" placeholder="Contact Number" required>
+
+<input type="date" id="date" required>
+
+<select id="court">
+<option value="">Select Court</option>
+<option>Court 1</option>
+<option>Court 2</option>
+</select>
+
+<select id="time">
+<option value="">Select Time</option>
+<option>6:00 AM</option>
+<option>7:00 AM</option>
+<option>8:00 AM</option>
+<option>5:00 PM</option>
+<option>6:00 PM</option>
+<option>7:00 PM</option>
+</select>
+
+<button type="submit">Book Now</button>
+</form>
+
+<h2>Bookings</h2>
+<div id="bookings"></div>
+</div>
+
+<script>
+
+let bookings = JSON.parse(localStorage.getItem("bookings")) || [];
+
+function displayBookings() {
+    const list = document.getElementById("bookings");
+    list.innerHTML = "";
+
+    bookings.forEach((booking,index) => {
+        list.innerHTML += `
+        <div class="booking">
+            <strong>${booking.name}</strong><br>
+            ${booking.date}<br>
+            ${booking.time}<br>
+            ${booking.court}
+        </div>`;
+    });
+}
+
+document.getElementById("bookingForm").addEventListener("submit", function(e){
+    e.preventDefault();
+
+    const booking = {
+        name: document.getElementById("name").value,
+        phone: document.getElementById("phone").value,
+        date: document.getElementById("date").value,
+        court: document.getElementById("court").value,
+        time: document.getElementById("time").value
+    };
+
+    bookings.push(booking);
+
+    localStorage.setItem("bookings", JSON.stringify(bookings));
+
+    alert("Booking Saved!");
+
+    this.reset();
+    displayBookings();
+});
+
+displayBookings();
+
+</script>
+
+</body>
+</html>
